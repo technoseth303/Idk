@@ -110,6 +110,7 @@ body {
     position: relative;
     overflow: hidden;
     transition: transform 0.15s ease-out, border-color 0.15s, box-shadow 0.15s;
+    cursor: pointer;
 }
 
 .card::before {
@@ -155,9 +156,52 @@ body {
     opacity: 0.6;
 }
 
-footer {
-    padding: 30px 8%;
-    border-top: 1px solid #181b24;
+/* TERMINAL POPUP */
+.terminal {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 420px;
+    background: #000;
+    border: 1px solid #4af2c5;
+    border-radius: 8px;
+    box-shadow: 0 0 20px #4af2c588;
+    z-index: 999;
+}
+
+.terminal-header {
+    padding: 8px;
+    background: #0b0d12;
+    border-bottom: 1px solid #4af2c5;
     font-size: 0.8rem;
-    opacity: 0.7;
+    letter-spacing: 0.1em;
+}
+
+.terminal-body {
+    height: 260px;
+    padding: 10px;
+    overflow-y: auto;
+    color: #4af2c5;
+    font-family: monospace;
+    font-size: 0.8rem;
+}
+
+/* ASCII MODAL */
+.ascii-modal {
+    position: fixed;
+    inset: 0;
+    background: #000a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.ascii-box {
+    background: #0b0d12;
+    padding: 20px;
+    border: 1px solid #4af2c5;
+    border-radius: 10px;
+    text-align: center;
 }
