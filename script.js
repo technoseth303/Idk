@@ -23,6 +23,7 @@ async function loadProjects() {
 
 function runAction(action) {
     switch (action) {
+
         case "open_terminal":
             openFakeTerminal();
             break;
@@ -35,11 +36,26 @@ function runAction(action) {
             showAsciiModal();
             break;
 
+        case "open_python_terminal":
+            window.location.href = "python/index.html";
+            break;
+
+        case "open_particles":
+            alert("Particles page coming soon!");
+            break;
+
+        case "open_soundboard":
+            alert("Soundboard coming soon!");
+            break;
+
         default:
             console.log("No action defined:", action);
     }
 }
 
+/* ------------------------------
+   FAKE TERMINAL POPUP
+--------------------------------*/
 function openFakeTerminal() {
     const win = document.createElement('div');
     win.className = 'terminal';
@@ -60,6 +76,9 @@ function openFakeTerminal() {
     }, 120);
 }
 
+/* ------------------------------
+   CHAOS GRID SHUFFLE
+--------------------------------*/
 function shuffleGrid() {
     const grid = document.getElementById('projectsGrid');
     const cards = Array.from(grid.children);
@@ -70,6 +89,9 @@ function shuffleGrid() {
     cards.forEach(c => grid.appendChild(c));
 }
 
+/* ------------------------------
+   ASCII MODAL POPUP
+--------------------------------*/
 function showAsciiModal() {
     const modal = document.createElement('div');
     modal.className = 'ascii-modal';
@@ -88,6 +110,9 @@ function showAsciiModal() {
     document.body.appendChild(modal);
 }
 
+/* ------------------------------
+   INITIALIZE
+--------------------------------*/
 document.addEventListener('DOMContentLoaded', () => {
     loadProjects();
     document.getElementById('shuffleBtn').addEventListener('click', shuffleGrid);
