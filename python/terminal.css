@@ -1,0 +1,37 @@
+body {
+    background: #050608;
+    color: #4af2c5;
+    font-family: monospace;
+    margin: 0;
+    padding: 40px;
+}
+
+.terminal {
+    width: 80%;
+    margin: auto;
+    border: 1px solid #4af2c5;
+    border-radius: 10px;
+    padding: 20px;
+    background: #000;
+}
+
+.header {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #9fa4ff;
+}
+
+#output {
+    height: 400px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    margin-bottom: 10px;
+}
+
+#input {
+    width: 100%;
+    padding: 10px;
+    background: #0b0d12;
+    border: 1px solid #4af2c5;
+    color: #4af2c5;
+}
