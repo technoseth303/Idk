@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #050608;
+    color: #f5f5f5;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+}
+
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 8%;
+    background: rgba(5, 6, 8, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #222;
+}
+
+.nav a {
+    color: #aaa;
+    margin-left: 18px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.nav a:hover {
+    color: #fff;
+}
+
+.logo {
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+.logo span {
+    color: #4af2c5;
+}
+
+.hero {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    padding: 60px 8%;
+    background: radial-gradient(circle at top, #1a1f2f 0, #050608 55%);
+}
+
+.hero-inner h1 {
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    margin-bottom: 10px;
+}
+
+.hero-inner p {
+    max-width: 480px;
+    opacity: 0.8;
+}
+
+.hero button {
+    margin-top: 20px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: 1px solid #4af2c5;
+    background: transparent;
+    color: #4af2c5;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    transition: background 0.2s, color 0.2s, transform 0.1s;
+}
+
+.hero button:hover {
+    background: #4af2c5;
+    color: #050608;
+    transform: translateY(-1px);
+}
+
+.section {
+    padding: 60px 8%;
+}
+
+.section h2 {
+    margin-bottom: 24px;
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9fa4ff;
+}
+
+.grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.card {
+    padding: 18px 18px 16px;
+    background: #0b0d12;
+    border-radius: 12px;
+    border: 1px solid #181b24;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s ease-out, border-color 0.15s, box-shadow 0.15s;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top left, #4af2c522, transparent 55%);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: #4af2c5;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.card-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.card-tag {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #4af2c5;
+    margin-bottom: 10px;
+}
+
+.card-desc {
+    font-size: 0.9rem;
+    opacity: 0.85;
+}
+
+.card-meta {
+    margin-top: 10px;
+    font-size: 0.75rem;
+    opacity: 0.6;
+}
+
+footer {
+    padding: 30px 8%;
+    border-top: 1px solid #181b24;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
