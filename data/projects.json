@@ -1,20 +1,23 @@
 [
   {
     "title": "Glitch Terminal",
-    "description": "A fake terminal that renders animated ASCII storms and random system logs.",
+    "description": "A fake terminal that renders animated ASCII storms.",
     "tag": "VISUAL",
-    "tech": ["HTML", "CSS", "JS"]
+    "tech": ["HTML", "CSS", "JS"],
+    "action": "open_terminal"
   },
   {
     "title": "Chaos Grid",
-    "description": "A grid that constantly reorders itself using a seeded RNG.",
+    "description": "A grid that constantly reorders itself.",
     "tag": "EXPERIMENT",
-    "tech": ["JS", "Math.random"]
+    "tech": ["JS"],
+    "action": "shuffle_grid"
   },
   {
     "title": "Auto‑ASCII",
-    "description": "Script that converts images into ASCII art for terminal previews.",
+    "description": "Converts images into ASCII art.",
     "tag": "UTILITY",
-    "tech": ["Python", "Pillow"]
+    "tech": ["Python"],
+    "action": "show_ascii_modal"
   }
 ]
