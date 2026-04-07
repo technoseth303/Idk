@@ -19,5 +19,26 @@
     "tag": "UTILITY",
     "tech": ["Python"],
     "action": "show_ascii_modal"
+  },
+  {
+    "title": "Python Terminal",
+    "description": "Run REAL Python in your browser using Pyodide.",
+    "tag": "PYTHON",
+    "tech": ["Python", "WebAssembly"],
+    "action": "open_python_terminal"
+  },
+  {
+    "title": "Neon Particles",
+    "description": "A glowing particle field that reacts to your mouse.",
+    "tag": "VISUAL",
+    "tech": ["Canvas", "JS"],
+    "action": "open_particles"
+  },
+  {
+    "title": "Soundboard",
+    "description": "A chaotic soundboard with glitch effects.",
+    "tag": "AUDIO",
+    "tech": ["JS", "Audio API"],
+    "action": "open_soundboard"
   }
 ]
