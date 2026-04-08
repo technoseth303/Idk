@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>FNaF 1</title>
     <link rel="stylesheet" href="games.css">
 </head>
@@ -9,22 +10,14 @@
 <div id="static-overlay"></div>
 
 <div class="game-frame">
-    <iframe 
-        src="https://fnafgame.io/fnaf" 
-        allow="fullscreen"
-        allowfullscreen
-        muted
-        id="game-iframe">
-    </iframe>
+    <iframe src="https://fnafgame.io/fnaf" allowfullscreen></iframe>
 </div>
 
 <button id="sound-btn" onclick="enableSound()">Enable Sound</button>
 
 <script>
 function enableSound() {
-    const iframe = document.getElementById("game-iframe");
-    iframe.muted = false;
-    document.getElementById("sound-btn").style.display = "none";
+    document.getElementById('sound-btn').style.display = 'none';
 }
 </script>
 
