@@ -2,36 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seth • Lab</title>
+    <title>Seth's Lab</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<nav class="nav">
-    <div class="logo">SETH<span>LAB</span></div>
-    <a href="#projects">Projects</a>
-    <a href="https://technoseth303.github.io/Idk/about">About</a>
-</nav>
-
-<header class="hero">
-    <div class="hero-inner">
-        <h1>Experimental Code Lab</h1>
-        <p>Micro‑projects, visual glitches, and chaotic prototypes—straight from the repo.</p>
-        <button id="shuffleBtn">Shuffle highlight</button>
-    </div>
+<header>
+    <nav>
+        <ul class="nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#" onclick="openSection('projects')">Projects</a></li>
+            <li><a href="/games/index.html">Games</a></li>
+            <li><a href="#" onclick="openSection('about')">About</a></li>
+        </ul>
+    </nav>
 </header>
 
 <main>
-    <section id="projects" class="section">
-        <h2>Projects</h2>
-        <div id="projectsGrid" class="grid"></div>
+    <section id="projects-section">
+        <h1>Projects</h1>
+        <div id="projects-container"></div>
+    </section>
+
+    <section id="about-section" style="display:none;">
+        <h1>About</h1>
+        <p>Chaos, terminals, and FNaF cameras.</p>
     </section>
 </main>
-
-<footer>
-    <p>© 2026 Seth • Generated with Python + GitHub Pages</p>
-</footer>
 
 <script src="script.js"></script>
 </body>
