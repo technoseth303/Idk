@@ -1,6 +1,6 @@
 async function loadProjects() {
     try {
-        const res = await fetch('projects.json');
+        const res = await fetch('data/projects.json');
         const projects = await res.json();
         renderProjects(projects);
     } catch (e) {
@@ -41,7 +41,7 @@ function renderProjects(projects) {
 function handleProjectAction(action) {
     switch (action) {
         case 'open_games':
-            window.location.href = '/games/index.html';
+            window.location.href = 'games/index.html';
             break;
         default:
             console.log('No handler for action:', action);
