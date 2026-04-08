@@ -40,5 +40,12 @@
     "tag": "AUDIO",
     "tech": ["JS", "Audio API"],
     "action": "open_soundboard"
+  },
+  {
+    "title": "FNaF Game Launcher",
+    "description": "A FNaF 1-style camera grid that launches FNaF games in fullscreen pages.",
+    "tag": "Games",
+    "tech": ["HTML", "CSS", "JavaScript"],
+    "action": "open_games"
   }
 ]
