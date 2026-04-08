@@ -1,3 +1,6 @@
+/* ============================================================
+   LOAD PROJECTS
+============================================================ */
 async function loadProjects() {
     const res = await fetch('data/projects.json');
     const projects = await res.json();
@@ -21,6 +24,9 @@ async function loadProjects() {
     });
 }
 
+/* ============================================================
+   ACTION ROUTER
+============================================================ */
 function runAction(action) {
     switch (action) {
 
@@ -41,11 +47,19 @@ function runAction(action) {
             break;
 
         case "open_particles":
-            alert("Particles page coming soon!");
+            openParticles();
             break;
 
         case "open_soundboard":
-            alert("Soundboard coming soon!");
+            openSoundboard();
+            break;
+
+        case "open_matrix":
+            openMatrixRain();
+            break;
+
+        case "open_clock":
+            openClock();
             break;
 
         default:
@@ -53,9 +67,9 @@ function runAction(action) {
     }
 }
 
-/* ------------------------------
+/* ============================================================
    FAKE TERMINAL POPUP
---------------------------------*/
+============================================================ */
 function openFakeTerminal() {
     const win = document.createElement('div');
     win.className = 'terminal';
@@ -76,9 +90,9 @@ function openFakeTerminal() {
     }, 120);
 }
 
-/* ------------------------------
+/* ============================================================
    CHAOS GRID SHUFFLE
---------------------------------*/
+============================================================ */
 function shuffleGrid() {
     const grid = document.getElementById('projectsGrid');
     const cards = Array.from(grid.children);
@@ -89,9 +103,9 @@ function shuffleGrid() {
     cards.forEach(c => grid.appendChild(c));
 }
 
-/* ------------------------------
+/* ============================================================
    ASCII MODAL POPUP
---------------------------------*/
+============================================================ */
 function showAsciiModal() {
     const modal = document.createElement('div');
     modal.className = 'ascii-modal';
@@ -110,9 +124,28 @@ function showAsciiModal() {
     document.body.appendChild(modal);
 }
 
-/* ------------------------------
+/* ============================================================
+   NEW PROJECT PLACEHOLDERS
+============================================================ */
+function openParticles() {
+    alert("Particles page coming soon — glowing neon chaos incoming.");
+}
+
+function openSoundboard() {
+    alert("Soundboard coming soon — glitch SFX and chaos buttons.");
+}
+
+function openMatrixRain() {
+    alert("Matrix rain effect coming soon — green code waterfall.");
+}
+
+function openClock() {
+    alert("Cyber clock coming soon — neon animated time display.");
+}
+
+/* ============================================================
    INITIALIZE
---------------------------------*/
+============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
     loadProjects();
     document.getElementById('shuffleBtn').addEventListener('click', shuffleGrid);
