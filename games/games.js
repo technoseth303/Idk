@@ -1,5 +1,5 @@
 function openGame(page) {
-    const overlay = document.getElementById("static-overlay");
+    const overlay = document.getElementById('static-overlay');
     overlay.style.opacity = 1;
 
     setTimeout(() => {
