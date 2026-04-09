@@ -1,0 +1,36 @@
+body {
+    background: #0a0a0a;
+    color: white;
+    font-family: monospace;
+    text-align: center;
+    padding: 40px;
+}
+
+.title {
+    font-size: 32px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px #0ff;
+}
+
+#soundboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.sound-btn {
+    padding: 15px 25px;
+    background: #111;
+    border: 2px solid #0ff;
+    color: #0ff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.15s;
+}
+
+.sound-btn:hover {
+    background: #0ff;
+    color: #000;
+    transform: scale(1.05);
+}
