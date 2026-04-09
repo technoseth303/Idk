@@ -1,16 +1,19 @@
 async function loadSounds() {
     const res = await fetch('sounds.json');
-    const sounds = await res.json();
+    const files = await res.json();
 
     const board = document.getElementById('soundboard');
     board.innerHTML = '';
 
-    sounds.forEach(sound => {
+    files.forEach(filename => {
         const btn = document.createElement('button');
         btn.className = 'sound-btn';
-        btn.textContent = sound.name;
 
-        const audio = new Audio(sound.file);
+        // Display name without extension
+        const displayName = filename.replace(/\.[^/.]+$/, "");
+        btn.textContent = displayName;
+
+        const audio = new Audio("audio/" + filename);
 
         btn.addEventListener('click', () => {
             audio.currentTime = 0;
