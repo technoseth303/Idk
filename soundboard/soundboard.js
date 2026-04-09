@@ -5,15 +5,15 @@ async function loadSounds() {
     const board = document.getElementById('soundboard');
     board.innerHTML = '';
 
-    files.forEach(filename => {
+    files.forEach(path => {
         const btn = document.createElement('button');
         btn.className = 'sound-btn';
 
-        // Display name without extension
-        const displayName = filename.replace(/\.[^/.]+$/, "");
-        btn.textContent = displayName;
+        // Extract filename without extension for display
+        const name = path.split('/').pop().replace(/\.[^/.]+$/, "");
+        btn.textContent = name;
 
-        const audio = new Audio("audio/" + filename);
+        const audio = new Audio(path);
 
         btn.addEventListener('click', () => {
             audio.currentTime = 0;
