@@ -1,26 +1,41 @@
 // ---- CONFIG ----
-const KIWI_BASE = "http://wessex.hopto.org:8075";
-const KIWI_WS   = "ws://wessex.hopto.org:8075/kiwiws";
+const OWRX_BASE = "http://rx.linkfanel.net";
+const OWRX_WS   = "ws://rx.linkfanel.net/ws"; // OpenWebRX v2 WebSocket endpoint (server side)
 
 // ---- DOM ----
 const statusEl      = document.getElementById("status");
-const freqDisplayEl = document.getElementById("freq-display");
+const freqMainEl    = document.getElementById("freq-main");
 const modeDisplayEl = document.getElementById("mode-display");
+const bandDisplayEl = document.getElementById("band-display");
 const freqInputEl   = document.getElementById("freq-input");
 const freqSetBtn    = document.getElementById("freq-set");
 const modeButtons   = document.querySelectorAll(".mode-buttons button");
+const stepButtons   = document.querySelectorAll(".step-buttons button");
 const zoomInBtn     = document.getElementById("zoom-in");
 const zoomOutBtn    = document.getElementById("zoom-out");
-const audioBtn      = document.getElementById("audio-start");
+const audioToggle   = document.getElementById("audio-toggle");
 const audioStatusEl = document.getElementById("audio-status");
+const volumeEl      = document.getElementById("volume");
+const infoLineEl    = document.getElementById("info-line");
+
+const spectrumCanvas  = document.getElementById("spectrum");
 const waterfallCanvas = document.getElementById("waterfall");
-const wfCtx = waterfallCanvas.getContext("2d");
+const specCtx = spectrumCanvas.getContext("2d");
+const wfCtx   = waterfallCanvas.getContext("2d");
 
 // ---- STATE ----
 let ws = null;
+let connected = false;
+let audioEnabled = false;
+
 let currentFreqKHz = 7100;
-let currentMode = "lsb";
+let currentMode = "usb";
 let zoomLevel = 0;
+let currentBand = "HF";
+
+// Audio pipeline (PCM placeholder)
+let audioContext = null;
+let audioGain = null;
 
 // ---- Helpers ----
 function setStatus(text) {
@@ -33,24 +48,68 @@ function formatFreqMHz(kHz) {
 }
 
 function updateFreqDisplay() {
-  freqDisplayEl.textContent = formatFreqMHz(currentFreqKHz);
+  freqMainEl.textContent = formatFreqMHz(currentFreqKHz);
+  freqInputEl.value = currentFreqKHz.toFixed(1);
 }
 
 function updateModeDisplay() {
   modeDisplayEl.textContent = currentMode.toUpperCase();
 }
 
-// ---- Waterfall fake renderer (visual only for now) ----
-function resizeWaterfall() {
-  const rect = waterfallCanvas.parentElement.getBoundingClientRect();
-  waterfallCanvas.width = rect.width;
-  waterfallCanvas.height = rect.height;
+function updateBandDisplay() {
+  const f = currentFreqKHz;
+  let band = "HF";
+  if (f >= 30000 && f < 300000) band = "VHF";
+  if (f >= 300000) band = "UHF";
+  currentBand = band;
+  bandDisplayEl.textContent = band;
 }
-window.addEventListener("resize", resizeWaterfall);
-resizeWaterfall();
 
+function setInfo(text) {
+  infoLineEl.textContent = text;
+}
+
+// ---- Canvas sizing ----
+function resizeCanvases() {
+  const sRect = spectrumCanvas.getBoundingClientRect();
+  spectrumCanvas.width = sRect.width;
+  spectrumCanvas.height = sRect.height;
+
+  const wRect = waterfallCanvas.getBoundingClientRect();
+  waterfallCanvas.width = wRect.width;
+  waterfallCanvas.height = wRect.height;
+}
+window.addEventListener("resize", resizeCanvases);
+resizeCanvases();
+
+// ---- Fake spectrum + waterfall (visuals while protocol is wired) ----
 let wfOffset = 0;
-function drawFakeWaterfall() {
+
+function drawSpectrumPlaceholder() {
+  const w = spectrumCanvas.width;
+  const h = spectrumCanvas.height;
+  if (!w || !h) return;
+
+  specCtx.clearRect(0, 0, w, h);
+  const grad = specCtx.createLinearGradient(0, 0, 0, h);
+  grad.addColorStop(0, "#7fd1ff");
+  grad.addColorStop(1, "#05070b");
+  specCtx.fillStyle = grad;
+  specCtx.fillRect(0, 0, w, h);
+
+  specCtx.strokeStyle = "#0b1018";
+  specCtx.lineWidth = 1;
+  specCtx.beginPath();
+  for (let x = 0; x < w; x++) {
+    const v = (Math.sin((x + wfOffset) * 0.02) + 1) * 0.5;
+    const y = h - v * (h * 0.8) - h * 0.1;
+    if (x === 0) specCtx.moveTo(x, y);
+    else specCtx.lineTo(x, y);
+  }
+  specCtx.stroke();
+}
+
+function drawWaterfallPlaceholder() {
   const w = waterfallCanvas.width;
   const h = waterfallCanvas.height;
   if (!w || !h) return;
@@ -69,74 +128,142 @@ function drawFakeWaterfall() {
   }
   wfCtx.putImageData(imgData, 0, 0);
   wfOffset += 2;
-
-  requestAnimationFrame(drawFakeWaterfall);
 }
-drawFakeWaterfall();
 
-// ---- KiwiSDR WebSocket ----
-function connectKiwi() {
+function renderLoop() {
+  drawSpectrumPlaceholder();
+  drawWaterfallPlaceholder();
+  requestAnimationFrame(renderLoop);
+}
+renderLoop();
+
+// ---- OpenWebRX v2 WebSocket scaffold ----
+function connectOWRX() {
   if (ws) {
     ws.close();
     ws = null;
   }
 
-  setStatus("Connecting to KiwiSDR…");
-  ws = new WebSocket(KIWI_WS);
+  setStatus("Connecting to OpenWebRX…");
+  setInfo("Opening WebSocket to rx.linkfanel.net");
+
+  ws = new WebSocket(OWRX_WS);
+  ws.binaryType = "arraybuffer";
 
   ws.onopen = () => {
-    setStatus("Connected to KiwiSDR");
+    connected = true;
+    setStatus("Connected (protocol scaffold)");
+    setInfo("Session established · tuning scaffold active");
 
-    // Basic auth (empty password)
-    ws.send("SET auth t=kiwi p=");
+    // TODO: send proper OpenWebRX v2 session init / capabilities / receiver select frames here.
+    // For now we just keep the connection alive and use the UI as a tuning shell.
 
-    // Set initial frequency and mode
-    sendFreq(currentFreqKHz);
-    sendMode(currentMode);
-
-    // Start audio stream (Kiwi will send binary frames)
-    ws.send("SET start=1");
+    // Example placeholder: send a text ping (server will likely ignore)
+    try {
+      ws.send("HELLO_FROM_CLIENT");
+    } catch (e) {
+      console.warn("Placeholder send failed:", e);
+    }
   };
 
   ws.onmessage = (event) => {
-    // Kiwi sends text control frames and binary audio/wf frames.
+    // In real v2 client:
+    // - parse binary frames
+    // - route audio frames to PCM decoder
+    // - route waterfall frames to waterfall renderer
+    // - route control frames to state updates
     if (typeof event.data === "string") {
-      // Text frame
-      console.log("Kiwi text:", event.data);
+      console.log("OWRX text:", event.data);
     } else {
-      // Binary frame (audio or waterfall) — not decoded here
-      // console.log("Kiwi binary frame", event.data);
+      // Binary frame placeholder
+      // console.log("OWRX binary frame", event.data);
     }
   };
 
   ws.onerror = (err) => {
-    console.error("Kiwi error:", err);
-    setStatus("Error talking to KiwiSDR");
+    console.error("OWRX error:", err);
+    setStatus("Error talking to OpenWebRX");
+    setInfo("Check connectivity / server status");
   };
 
   ws.onclose = () => {
-    setStatus("Disconnected — retrying in 3s…");
-    setTimeout(connectKiwi, 3000);
+    connected = false;
+    setStatus("Disconnected — retrying in 5s…");
+    setInfo("WebSocket closed · auto-reconnect enabled");
+    setTimeout(connectOWRX, 5000);
   };
 }
 
+// ---- Tuning + mode (client-side state; protocol TODOs) ----
 function sendFreq(kHz) {
   currentFreqKHz = kHz;
   updateFreqDisplay();
+  updateBandDisplay();
+  setInfo(`Tuned to ${formatFreqMHz(kHz)} · ${currentMode.toUpperCase()}`);
+
+  // TODO: encode and send proper OpenWebRX v2 "set frequency" frame.
   if (ws && ws.readyState === WebSocket.OPEN) {
-    ws.send(`SET freq=${kHz}`);
+    // Placeholder: send a simple text message for debugging
+    ws.send(`TUNE ${kHz} kHz ${currentMode}`);
   }
 }
 
 function sendMode(mode) {
   currentMode = mode;
   updateModeDisplay();
+  setInfo(`Mode: ${mode.toUpperCase()} · ${formatFreqMHz(currentFreqKHz)}`);
+
+  // TODO: encode and send proper OpenWebRX v2 "set mode" frame.
   if (ws && ws.readyState === WebSocket.OPEN) {
-    let low = -3000, high = 3000;
-    if (mode === "lsb") { low = -2700; high = -300; }
-    if (mode === "usb") { low = 300; high = 2700; }
-    if (mode === "cw")  { low = -400; high = 400; }
-    ws.send(`SET mod=${mode} low_cut=${low} high_cut=${high}`);
+    ws.send(`MODE ${mode}`);
+  }
+}
+
+function sendZoom(delta) {
+  zoomLevel = Math.max(0, Math.min(zoomLevel + delta, 10));
+  setInfo(`Zoom: ${zoomLevel}`);
+
+  // TODO: encode and send proper OpenWebRX v2 "set zoom" frame.
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(`ZOOM ${zoomLevel}`);
+  }
+}
+
+// ---- Audio (PCM pipeline scaffold) ----
+function ensureAudioContext() {
+  if (!audioContext) {
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    audioGain = audioContext.createGain();
+    audioGain.gain.value = parseFloat(volumeEl.value);
+    audioGain.connect(audioContext.destination);
+  }
+}
+
+function setVolumeFromSlider() {
+  if (audioGain) {
+    audioGain.gain.value = parseFloat(volumeEl.value);
+  }
+}
+
+function toggleAudio() {
+  audioEnabled = !audioEnabled;
+  if (audioEnabled) {
+    ensureAudioContext();
+    audioStatusEl.textContent = "Audio requested (PCM scaffold)";
+    audioToggle.textContent = "Stop audio";
+
+    // TODO: send OpenWebRX v2 "subscribe audio PCM" frame.
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send("AUDIO_SUBSCRIBE_PCM");
+    }
+  } else {
+    audioStatusEl.textContent = "Audio stopped";
+    audioToggle.textContent = "Start audio";
+
+    // TODO: send OpenWebRX v2 "unsubscribe audio" frame.
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send("AUDIO_UNSUBSCRIBE");
+    }
   }
 }
 
@@ -148,6 +275,15 @@ freqSetBtn.addEventListener("click", () => {
   }
 });
 
+stepButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const step = parseFloat(btn.getAttribute("data-step"));
+    if (!isNaN(step)) {
+      sendFreq(currentFreqKHz + step);
+    }
+  });
+});
+
 modeButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     modeButtons.forEach(b => b.classList.remove("active"));
@@ -157,32 +293,15 @@ modeButtons.forEach(btn => {
   });
 });
 
-zoomInBtn.addEventListener("click", () => {
-  zoomLevel = Math.min(zoomLevel + 1, 10);
-  if (ws && ws.readyState === WebSocket.OPEN) {
-    ws.send(`SET zoom=${zoomLevel}`);
-  }
-});
+zoomInBtn.addEventListener("click", () => sendZoom(+1));
+zoomOutBtn.addEventListener("click", () => sendZoom(-1));
 
-zoomOutBtn.addEventListener("click", () => {
-  zoomLevel = Math.max(zoomLevel - 1, 0);
-  if (ws && ws.readyState === WebSocket.OPEN) {
-    ws.send(`SET zoom=${zoomLevel}`);
-  }
-});
-
-// Audio button — we’re already asking Kiwi to start audio,
-// but proper decoding of its binary audio frames into Web Audio
-// needs a custom decoder. For now this just reflects connection state.
-audioBtn.addEventListener("click", () => {
-  if (ws && ws.readyState === WebSocket.OPEN) {
-    audioStatusEl.textContent = "Audio requested (binary frames arriving)";
-  } else {
-    audioStatusEl.textContent = "Not connected";
-  }
-});
+audioToggle.addEventListener("click", toggleAudio);
+volumeEl.addEventListener("input", setVolumeFromSlider);
 
 // ---- Init ----
 updateFreqDisplay();
 updateModeDisplay();
-connectKiwi();
+updateBandDisplay();
+setInfo("UI ready · waiting for OpenWebRX connection");
+connectOWRX();
