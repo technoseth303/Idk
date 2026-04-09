@@ -1,6 +1,6 @@
 [
-    "glitch1.mp3",
-    "static1.mp3",
-    "beep.mp3",
-    "error.mp3"
+    "audio/glitch1.mp3",
+    "audio/static1.mp3",
+    "audio/beep.mp3",
+    "audio/error.mp3"
 ]
