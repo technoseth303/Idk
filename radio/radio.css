@@ -11,87 +11,90 @@ body {
 }
 
 #app {
-  max-width: 960px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 12px;
+  padding: 10px;
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
-h1 {
-  font-size: 1.2rem;
-  letter-spacing: 0.08em;
+.brand h1 {
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #7fd1ff;
 }
 
-#status {
-  font-size: 0.8rem;
+.brand .sub {
+  font-size: 0.75rem;
   color: #9fa8b3;
 }
 
-main {
+#status {
+  font-size: 0.8rem;
+  color: #c3d0dd;
+}
+
+#top-panel {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+#freq-block {
+  flex: 0 0 260px;
+  background: #0b1018;
+  border: 1px solid #1b2433;
+  padding: 8px 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-#display {
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-  background: #0b1018;
-  border: 1px solid #1b2433;
-  padding: 8px 10px;
 }
 
-#freq-display {
-  font-size: 1.4rem;
+#freq-main {
+  font-size: 1.6rem;
   font-weight: 600;
-  color: #f5f5f5;
+  letter-spacing: 0.08em;
 }
 
-#mode-display {
-  font-size: 0.9rem;
-  padding: 4px 8px;
-  border-radius: 4px;
-  background: #182233;
-  border: 1px solid #2b3b55;
-}
-
-#waterfall-wrapper {
-  background: #05070b;
-  border: 1px solid #1b2433;
-  height: 220px;
-  overflow: hidden;
-}
-
-#waterfall {
-  width: 100%;
-  height: 100%;
-  display: block;
-  background: radial-gradient(circle at top, #1b3b6b 0, #05070b 60%);
-}
-
-#controls {
+#mode-block {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+#mode-display,
+#band-display {
+  font-size: 0.8rem;
+  padding: 3px 7px;
+  border-radius: 3px;
+  border: 1px solid #2b3b55;
+  background: #182233;
+}
+
+#band-display {
+  color: #9fd17f;
+}
+
+#tune-panel {
+  flex: 1;
   background: #0b1018;
   border: 1px solid #1b2433;
   padding: 8px 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
 }
 
 .control-group {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  min-width: 150px;
 }
 
 .control-group label {
@@ -99,6 +102,12 @@ main {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #9fa8b3;
+}
+
+.inline {
+  display: flex;
+  gap: 4px;
+  align-items: center;
 }
 
 #freq-input {
@@ -129,33 +138,61 @@ button.active {
   border-color: #4b8fe0;
 }
 
-.mode-buttons {
+.mode-buttons,
+.step-buttons {
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
 }
 
-#audio-section {
+#display-panel {
+  background: #05070b;
+  border: 1px solid #1b2433;
+  margin-bottom: 8px;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+}
+
+#spectrum {
+  width: 100%;
+  height: 120px;
+  display: block;
+  background: radial-gradient(circle at top, #1b3b6b 0, #05070b 70%);
+}
+
+#waterfall {
+  width: 100%;
+  height: 220px;
+  display: block;
+  background: #05070b;
+}
+
+#bottom-panel {
   background: #0b1018;
   border: 1px solid #1b2433;
   padding: 8px 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+  align-items: center;
 }
 
-#audio-status {
+#audio-status,
+#info-line {
   font-size: 0.8rem;
   color: #9fa8b3;
 }
 
-@media (max-width: 600px) {
-  #display {
+#volume {
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  #top-panel {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
   }
 
-  #controls {
-    flex-direction: column;
+  #freq-block {
+    flex: 1;
   }
-}
+  }
