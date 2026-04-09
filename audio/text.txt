@@ -1,2 +1,2 @@
 how to add more sounds:
-add your sound to the audio file, thats it
+add your sound to the audio file, then go to the soundboard/soundboard.json and add your file name in the same format 
