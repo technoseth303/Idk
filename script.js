@@ -2,26 +2,30 @@
    LOAD PROJECTS
 ============================================================ */
 async function loadProjects() {
-    const res = await fetch('data/projects.json');
-    const projects = await res.json();
-    const grid = document.getElementById('projectsGrid');
-    grid.innerHTML = '';
+    try {
+        const res = await fetch('data/projects.json');
+        const projects = await res.json();
+        const grid = document.getElementById('projectsGrid');
+        grid.innerHTML = '';
 
-    projects.forEach(p => {
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.dataset.action = p.action;
+        projects.forEach(p => {
+            const card = document.createElement('article');
+            card.className = 'card';
+            card.dataset.action = p.action;
 
-        card.innerHTML = `
-            <div class="card-tag">${p.tag}</div>
-            <div class="card-title">${p.title}</div>
-            <div class="card-desc">${p.description}</div>
-            <div class="card-meta">${p.tech.join(' • ')}</div>
-        `;
+            card.innerHTML = `
+                <div class="card-tag">${p.tag}</div>
+                <div class="card-title">${p.title}</div>
+                <div class="card-desc">${p.description}</div>
+                <div class="card-meta">${p.tech.join(' • ')}</div>
+            `;
 
-        card.addEventListener('click', () => runAction(p.action));
-        grid.appendChild(card);
-    });
+            card.addEventListener('click', () => runAction(p.action));
+            grid.appendChild(card);
+        });
+    } catch (err) {
+        console.error("Failed to load projects.json", err);
+    }
 }
 
 /* ============================================================
@@ -84,8 +88,8 @@ function openFakeTerminal() {
     document.body.appendChild(win);
 
     const body = win.querySelector('.terminal-body');
-
     let i = 0;
+
     const interval = setInterval(() => {
         body.textContent += ">> SYSTEM LOG " + Math.random().toString(36).slice(2) + "\n";
         body.scrollTop = body.scrollHeight;
@@ -136,6 +140,10 @@ function openParticles() {
 }
 
 function openSoundboard() {
+    window.location.href = "soundboard/index.html";
+}
+
+function openSoundboardOld() {
     alert("Soundboard coming soon — glitch SFX and chaos buttons.");
 }
 
@@ -152,6 +160,9 @@ function openClock() {
 ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
     loadProjects();
+
     const shuffleBtn = document.getElementById('shuffleBtn');
-    if (shuffleBtn) shuffleBtn.addEventListener('click', shuffleGrid);
+    if (shuffleBtn) {
+        shuffleBtn.addEventListener('click', shuffleGrid);
+    }
 });
