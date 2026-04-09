@@ -1,18 +1,6 @@
 [
-    {
-        "name": "Glitch Burst",
-        "file": "audio/glitch1.mp3"
-    },
-    {
-        "name": "Static Pop",
-        "file": "audio/static1.mp3"
-    },
-    {
-        "name": "Beep",
-        "file": "audio/beep.mp3"
-    },
-    {
-        "name": "Error Tone",
-        "file": "audio/error.mp3"
-    }
+    "glitch1.ogg",
+    "static1.ogg",
+    "beep.ogg",
+    "error.ogg"
 ]
