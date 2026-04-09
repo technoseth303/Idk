@@ -1,0 +1,6 @@
+{
+  "server": "http://irelandnorthwest3.proxy.kiwisdr.com:8073",
+  "audio_format": "pcm",
+  "initial_frequency_khz": 7100,
+  "initial_mode": "usb"
+}
