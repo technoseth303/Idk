@@ -2,56 +2,93 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>HF Web Radio</title>
+  <title>Wideband HF/VHF/UHF Radio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="radio.css" />
 </head>
 <body>
   <div id="app">
     <header>
-      <h1>HF Web Radio</h1>
+      <div class="brand">
+        <h1>Wideband Web SDR</h1>
+        <span class="sub">rx.linkfanel.net · OpenWebRX</span>
+      </div>
       <div id="status">Connecting…</div>
     </header>
 
-    <main>
-      <section id="display">
-        <div id="freq-display">7.100.00 MHz</div>
-        <div id="mode-display">LSB</div>
-      </section>
+    <section id="top-panel">
+      <div id="freq-block">
+        <div id="freq-main">7.10000 MHz</div>
+        <div id="mode-block">
+          <span id="mode-display">USB</span>
+          <span id="band-display">HF</span>
+        </div>
+      </div>
 
-      <section id="waterfall-wrapper">
-        <canvas id="waterfall"></canvas>
-      </section>
-
-      <section id="controls">
+      <div id="tune-panel">
         <div class="control-group">
-          <label>Frequency (kHz)</label>
-          <input id="freq-input" type="number" value="7100" />
-          <button id="freq-set">Set</button>
+          <label for="freq-input">Frequency (kHz)</label>
+          <div class="inline">
+            <input id="freq-input" type="number" value="7100" step="0.5" />
+            <button id="freq-set">Set</button>
+          </div>
         </div>
 
         <div class="control-group">
           <label>Mode</label>
           <div class="mode-buttons">
             <button data-mode="am">AM</button>
-            <button data-mode="lsb" class="active">LSB</button>
-            <button data-mode="usb">USB</button>
+            <button data-mode="lsb">LSB</button>
+            <button data-mode="usb" class="active">USB</button>
             <button data-mode="cw">CW</button>
+            <button data-mode="fm">FM</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <label>Step</label>
+          <div class="step-buttons">
+            <button data-step="-5">-5 kHz</button>
+            <button data-step="-1">-1 kHz</button>
+            <button data-step="1">+1 kHz</button>
+            <button data-step="5">+5 kHz</button>
           </div>
         </div>
 
         <div class="control-group">
           <label>Zoom</label>
-          <button id="zoom-out">-</button>
-          <button id="zoom-in">+</button>
+          <div class="inline">
+            <button id="zoom-out">-</button>
+            <button id="zoom-in">+</button>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="audio-section">
-        <button id="audio-start">Start audio</button>
-        <span id="audio-status">Idle</span>
-      </section>
-    </main>
+    <section id="display-panel">
+      <canvas id="spectrum"></canvas>
+      <canvas id="waterfall"></canvas>
+    </section>
+
+    <section id="bottom-panel">
+      <div class="control-group">
+        <label>Audio</label>
+        <div class="inline">
+          <button id="audio-toggle">Start audio</button>
+          <span id="audio-status">Idle</span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Volume</label>
+        <input id="volume" type="range" min="0" max="1" step="0.01" value="0.6" />
+      </div>
+
+      <div class="control-group">
+        <label>Info</label>
+        <div id="info-line">Ready to tune · HF/VHF/UHF</div>
+      </div>
+    </section>
   </div>
 
   <script src="radio.js"></script>
