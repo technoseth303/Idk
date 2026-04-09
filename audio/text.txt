@@ -1,0 +1,2 @@
+how to add more sounds: 
+go to soundboard.json and add a nother block. e.g.
