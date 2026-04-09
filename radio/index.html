@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Radio Receiver</title>
+  <link rel="stylesheet" href="radio.css">
+</head>
+<body>
+
+<div class="radio">
+  <h1>Radio Receiver</h1>
+
+  <div class="controls">
+    <button id="playBtn">▶ Play</button>
+    <button id="stopBtn">⏹ Stop</button>
+  </div>
+
+  <div class="freq">
+    Frequency: <span id="freqDisplay">18.273 MHz</span>
+  </div>
+
+  <input id="freqSlider" type="range" min="1" max="30" step="0.001" value="18.273">
+
+</div>
+
+<audio id="radioAudio"></audio>
+<script src="radio.js"></script>
+</body>
+</html>
