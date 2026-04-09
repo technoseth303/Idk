@@ -1,2 +1,7 @@
-how to add more sounds: 
-go to soundboard.json and add a nother block. e.g.
+how to add more sounds:
+1.go to soundboard.json and add a nother block at the beginning. e.g. 
+    {
+        "name": "YourAudio",
+        "file": "audio/YourAudio.mp3"
+    },
+2.go to the audio file and add your mp3 file or any other sound file(you will need to change the file extension in the extra audio block)
