@@ -153,7 +153,5 @@ function openClock() {
 document.addEventListener('DOMContentLoaded', () => {
     loadProjects();
     const shuffleBtn = document.getElementById('shuffleBtn');
-    if (shuffleBtn) {
-        shuffleBtn.addEventListener('click', shuffleGrid);
-    }
+    if (shuffleBtn) shuffleBtn.addEventListener('click', shuffleGrid);
 });
